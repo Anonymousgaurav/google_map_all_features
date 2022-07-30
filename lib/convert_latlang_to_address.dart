@@ -5,12 +5,11 @@ class ConvertLatLangToAddress extends StatefulWidget {
   const ConvertLatLangToAddress({Key? key}) : super(key: key);
 
   @override
-  _ConvertLatLangToAddressState createState() => _ConvertLatLangToAddressState();
+  _ConvertLatLangToAddressState createState() =>
+      _ConvertLatLangToAddressState();
 }
 
 class _ConvertLatLangToAddressState extends State<ConvertLatLangToAddress> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,14 +19,14 @@ class _ConvertLatLangToAddressState extends State<ConvertLatLangToAddress> {
           children: <Widget>[
             Column(
               children: <Widget>[
-                 Text('latitude: 37.597576, longitude: 55.771899'),
-             //   Text(address),
+                Text('latitude: 25.594095, longitude: 85.137566'),
+                //   Text(address),
               ],
             ),
             const SizedBox(height: 40),
             Column(
               children: <Widget>[
-                const Text('address: Москва, 4-я Тверская-Ямская улица, 7'),
+                const Text('address: Khemnichak Patna, 7'),
                 //Text(latLong),
               ],
             ),
@@ -36,15 +35,15 @@ class _ConvertLatLangToAddressState extends State<ConvertLatLangToAddress> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-
           // From coordinates
-          final coordinates = new Coordinates(33.6992, 72.9744);
-          final addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+          final coordinates = Coordinates(25.620667, 85.049324);
+          final addresses =
+              await Geocoder.local.findAddressesFromCoordinates(coordinates);
           final first = addresses.first;
           print("${first.featureName} : ${first.addressLine}");
 
           // From a query
-          final query = "1600 Amphiteatre Parkway, Mountain View";
+          const query = "1600 Amphiteatre Parkway, Mountain View";
           var add = await Geocoder.local.findAddressesFromQuery(query);
           var second = add.first;
           print("${second.featureName} : ${second.coordinates}");

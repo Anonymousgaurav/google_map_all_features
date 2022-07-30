@@ -4,37 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MyHomePage extends StatefulWidget {
-
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   final Completer<GoogleMapController> _controller = Completer();
 
   List<Marker> _markers = <Marker>[];
 
-  static const CameraPosition _kGooglePlex =  CameraPosition(
+  static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(33.6844, 73.0479),
     zoom: 14,
   );
-
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _markers.add(
-        Marker(
-            markerId: MarkerId('SomeId'),
-            position: LatLng(37.42796133580664, -122.085749655962),
-            infoWindow: InfoWindow(
-                title: 'The title of the marker'
-            )
-        )
-    );
+    _markers.add(Marker(
+        markerId: MarkerId('SomeId'),
+        position: LatLng(37.42796133580664, -122.085749655962),
+        infoWindow: InfoWindow(title: 'The title of the marker')));
   }
 
   @override
@@ -52,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
           rotateGesturesEnabled: true,
           buildingsEnabled: true,
           markers: Set<Marker>.of(_markers),
-          onMapCreated: (GoogleMapController controller){
+          onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
           },
         ),
@@ -80,7 +71,6 @@ class _MyHomePageState extends State<MyHomePage> {
 //
 // @override
 // void initState() {
-//   // TODO: implement initState
 //   super.initState();
 //   _markers.addAll(
 //       list);

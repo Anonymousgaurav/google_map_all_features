@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_geocoder/geocoder.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,82 +13,64 @@ class CurrentLocationScreen extends StatefulWidget {
 }
 
 class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
+  String address = '';
 
-  String address = '' ;
   final Completer<GoogleMapController> _controller = Completer();
 
-
   Future<Position> _getUserCurrentLocation() async {
-
-
-    await Geolocator.requestPermission().then((value) {
-
-    }).onError((error, stackTrace){
+    await Geolocator.requestPermission()
+        .then((value) {})
+        .onError((error, stackTrace) {
       print(error.toString());
     });
-
     return await Geolocator.getCurrentPosition();
-
   }
 
+  final List<Marker> _markers = <Marker>[];
 
-  final List<Marker> _markers =  <Marker>[];
-
-  static const CameraPosition _kGooglePlex =  CameraPosition(
-    target: LatLng(33.6844, 73.0479),
+  static const CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(25.620667, 85.049324),
     zoom: 14,
   );
-
 
   List<Marker> list = const [
     Marker(
         markerId: MarkerId('1'),
-        position: LatLng(33.6844, 73.0479),
-        infoWindow: InfoWindow(
-            title: 'some Info '
-        )
-    ),
-
+        position: LatLng(25.620667, 85.049324),
+        infoWindow: InfoWindow(title: 'some Info ')),
   ];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _markers.addAll(list);
     //loadData();
   }
 
-  loadData(){
+  loadData() {
     _getUserCurrentLocation().then((value) async {
-      _markers.add(
-          Marker(
-              markerId: const MarkerId('SomeId'),
-              position: LatLng(value.latitude ,value.longitude),
-              infoWindow:  InfoWindow(
-                  title: address
-              )
-          )
-      );
+      _markers.add(Marker(
+          markerId: const MarkerId('SomeId'),
+          position: LatLng(value.latitude, value.longitude),
+          infoWindow: InfoWindow(title: address)));
 
       final GoogleMapController controller = await _controller.future;
-      CameraPosition _kGooglePlex =  CameraPosition(
-        target: LatLng(value.latitude ,value.longitude),
+      CameraPosition _kGooglePlex = CameraPosition(
+        target: LatLng(value.latitude, value.longitude),
         zoom: 14,
       );
       controller.animateCamera(CameraUpdate.newCameraPosition(_kGooglePlex));
-      setState(() {
-
-      });
+      setState(() {});
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.deepOrange,
-        title: Text('Flutter Google Map'),
+        title: const Text('Flutter Google Map'),
       ),
       body: SafeArea(
         child: Stack(
@@ -102,61 +82,64 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
               markers: Set<Marker>.of(_markers),
-              onMapCreated: (GoogleMapController controller){
+              onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
               },
             ),
             Container(
               height: MediaQuery.of(context).size.height * .2,
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(40)
-              ),
+                  color: Colors.white, borderRadius: BorderRadius.circular(40)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       _getUserCurrentLocation().then((value) async {
-                        _markers.add(
-                            Marker(
-                                markerId: const MarkerId('SomeId'),
-                                position: LatLng(value.latitude ,value.longitude),
-                                infoWindow:  InfoWindow(
-                                    title: address
-                                )
-                            )
-                        );
-                        final GoogleMapController controller = await _controller.future;
+                        _markers.add(Marker(
+                            markerId: const MarkerId('SomeId'),
+                            position: LatLng(value.latitude, value.longitude),
+                            infoWindow: InfoWindow(title: address)));
+                        final GoogleMapController controller =
+                            await _controller.future;
 
-                        CameraPosition _kGooglePlex =  CameraPosition(
-                          target: LatLng(value.latitude ,value.longitude),
+                        CameraPosition _kGooglePlex = CameraPosition(
+                          target: LatLng(value.latitude, value.longitude),
                           zoom: 14,
                         );
-                        controller.animateCamera(CameraUpdate.newCameraPosition(_kGooglePlex));
+                        controller.animateCamera(
+                            CameraUpdate.newCameraPosition(_kGooglePlex));
 
-                        List<Placemark> placemarks = await placemarkFromCoordinates(value.latitude ,value.longitude);
-
+                        List<Placemark> placemarks =
+                            await placemarkFromCoordinates(
+                                value.latitude, value.longitude);
 
                         final add = placemarks.first;
-                        address = add.locality.toString() +" "+add.administrativeArea.toString()+" "+add.subAdministrativeArea.toString()+" "+add.country.toString();
+                        address = add.locality.toString() +
+                            " " +
+                            add.administrativeArea.toString() +
+                            " " +
+                            add.subAdministrativeArea.toString() +
+                            " " +
+                            add.country.toString();
 
-                        setState(() {
-
-                        });
+                        setState(() {});
                       });
                     },
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10 , horizontal: 20),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
                       child: Container(
                         height: 40,
-
                         decoration: BoxDecoration(
                             color: Colors.deepOrange,
-                            borderRadius: BorderRadius.circular(8)
-                        ),
-                        child: Center(child: Text('Current Location' , style: TextStyle(color: Colors.white),)),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Center(
+                            child: Text(
+                          'Current Location',
+                          style: TextStyle(color: Colors.white),
+                        )),
                       ),
                     ),
                   ),
@@ -169,10 +152,7 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
             )
           ],
         ),
-
       ),
     );
   }
-
-
 }
