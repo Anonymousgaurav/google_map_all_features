@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_map_features_all/utils/constants.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CustomMarkerInfoWindowScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class _CustomMarkerInfoWindowScreenState
     extends State<CustomMarkerInfoWindowScreen> {
   CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
-  final LatLng _latLng = LatLng(33.6844, 73.0479);
+  final LatLng _latLng = LatLng(mapConstants.latitude, mapConstants.longitude);
   final double _zoom = 15.0;
   Set<Marker> _markers = {};
 
@@ -62,7 +63,7 @@ class _CustomMarkerInfoWindowScreenState
       if (i == 1) {
         _markers.add(Marker(
             markerId: MarkerId('2'),
-            position: LatLng(33.6992, 72.9744),
+            position: LatLng(mapConstants.latitude, mapConstants.longitude),
             icon: BitmapDescriptor.fromBytes(markerIcon),
             onTap: () {
               _customInfoWindowController.addInfoWindow!(
@@ -103,14 +104,6 @@ class _CustomMarkerInfoWindowScreenState
                         height: double.infinity,
                       ),
                     ),
-                    // Triangle.isosceles(
-                    //   edge: Edge.BOTTOM,
-                    //   child: Container(
-                    //     color: Colors.blue,
-                    //     width: 20.0,
-                    //     height: 10.0,
-                    //   ),
-                    // ),
                   ],
                 ),
                 LatLng(33.6992, 72.9744),
@@ -187,7 +180,6 @@ class _CustomMarkerInfoWindowScreenState
               );
             }));
       }
-
       setState(() {});
     }
   }

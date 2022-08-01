@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_geocoder/geocoder.dart';
+import 'package:google_map_features_all/utils/constants.dart';
 
 class ConvertLatLangToAddress extends StatefulWidget {
   const ConvertLatLangToAddress({Key? key}) : super(key: key);
@@ -36,18 +37,17 @@ class _ConvertLatLangToAddressState extends State<ConvertLatLangToAddress> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           // From coordinates
-          final coordinates = Coordinates(25.620667, 85.049324);
+          final coordinates =
+              Coordinates(mapConstants.latitude, mapConstants.longitude);
           final addresses =
               await Geocoder.local.findAddressesFromCoordinates(coordinates);
           final first = addresses.first;
           print("${first.featureName} : ${first.addressLine}");
-
           // From a query
           const query = "1600 Amphiteatre Parkway, Mountain View";
           var add = await Geocoder.local.findAddressesFromQuery(query);
           var second = add.first;
           print("${second.featureName} : ${second.coordinates}");
-          // setState(() {});
         },
         child: const Icon(Icons.search),
       ),

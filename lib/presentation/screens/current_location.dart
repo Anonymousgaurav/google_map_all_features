@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_map_features_all/utils/constants.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CurrentLocationScreen extends StatefulWidget {
@@ -28,15 +29,15 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
 
   final List<Marker> _markers = <Marker>[];
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(25.620667, 85.049324),
+  static CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(mapConstants.latitude, mapConstants.longitude),
     zoom: 14,
   );
 
-  List<Marker> list = const [
+  List<Marker> list = [
     Marker(
         markerId: MarkerId('1'),
-        position: LatLng(25.620667, 85.049324),
+        position: LatLng(mapConstants.latitude, mapConstants.longitude),
         infoWindow: InfoWindow(title: 'some Info ')),
   ];
 
@@ -44,7 +45,6 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
   void initState() {
     super.initState();
     _markers.addAll(list);
-    //loadData();
   }
 
   loadData() {

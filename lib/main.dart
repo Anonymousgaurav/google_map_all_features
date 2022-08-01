@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_map_features_all/polyline_two.dart';
+import 'package:google_map_features_all/presentation/screens/polyline_two.dart';
 
 void main() {
   runApp(const MyApp());
