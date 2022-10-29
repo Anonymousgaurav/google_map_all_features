@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_map_features_all/presentation/screens/google_highlighted_position.dart';
+import 'package:google_map_features_all/presentation/screens/live_location.dart';
 import 'package:google_map_features_all/presentation/screens/polyline_two.dart';
 
 void main() {
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
       ),
-      home: PolylineTwoScreen(),
+      home: GoogleMapScreen(),
     );
   }
 }
